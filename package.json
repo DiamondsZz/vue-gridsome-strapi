@@ -1,0 +1,23 @@
+{
+  "name": "vue-gridsome-strapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "sharp": "^0.27.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiamondsZz/vue-gridsome-strapi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DiamondsZz/vue-gridsome-strapi/issues"
+  },
+  "homepage": "https://github.com/DiamondsZz/vue-gridsome-strapi#readme"
+}
