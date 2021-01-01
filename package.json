@@ -7,8 +7,9 @@
     "explore": "gridsome explore"
   },
   "dependencies": {
-    "gridsome": "^0.7.0",
+    "axios": "^0.21.1",
     "element-ui": "^2.3.5",
+    "gridsome": "^0.7.0",
     "mavon-editor": "^2.5.2"
   }
 }

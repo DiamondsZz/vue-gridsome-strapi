@@ -26,13 +26,12 @@
         >
       </el-card>
 
-      <div v-if="blogs && blogs.length > 0">
+      <div>
         <el-card
           shadow="hover"
-          v-for="(item, index) in blogs"
+          v-for="(item, index) in $page.blogs.edges"
           :key="'p' + index"
           style="margin-bottom: 20px"
-          v-if="!item.hide"
         >
           <div slot="header">
             <el-row>
@@ -40,41 +39,33 @@
                 <span>
                   <a
                     style="text-decoration: none; cursor: pointer"
-                    @click="goDetails(item.id)"
+                    @click="goDetails(item.node.id)"
                   >
                     <i class="el-icon-edit-outline"></i>&nbsp;&nbsp;
-                    {{ item.title }}
+                    {{ item.node.title }}
                   </a>
                 </span>
               </el-col>
               <el-col :span="8">
                 <div style="text-align: right">
                   <el-button
-                    @click="$share('/user/blog/details/' + item.id)"
-                    style="padding: 3px 0"
-                    type="text"
-                    icon="el-icon-share"
-                  ></el-button>
-                  <el-button
                     @click="editBlog(index)"
                     style="padding: 3px 0"
                     type="text"
                     icon="el-icon-edit"
-                    v-if="token"
                   ></el-button>
                   <el-button
                     @click="deleteBlog(index)"
                     style="padding: 3px 0"
                     type="text"
                     icon="el-icon-delete"
-                    v-if="token"
                   ></el-button>
                 </div>
               </el-col>
             </el-row>
           </div>
           <div style="font-size: 0.9rem; line-height: 1.5; color: #606c71">
-            最近更新 {{ item.updateTime }}
+            最近更新 {{ item.node.updateTime }}
           </div>
           <div
             style="
@@ -84,7 +75,7 @@
               padding: 10px 0px 0px 0px;
             "
           >
-            {{ item.description }}
+            {{ item.node.description }}
           </div>
         </el-card>
         <div style="text-align: center">
@@ -107,7 +98,7 @@
           padding: 20px 0px 20px 0px;
           text-align: center;
         "
-        v-if="!blogs || blogs.length == 0"
+        v-if="!$page.blogs.edges || $page.blogs.edges.length == 0"
       >
         <font style="font-size: 30px; color: #dddddd">
           <b>还没有博客 (╯°Д°)╯︵ ┻━┻</b>
@@ -116,6 +107,19 @@
     </div>
   </Layout>
 </template>
+
+<page-query>
+  query{
+    blogs:allPost{
+      edges{
+        node{
+          id
+          title
+        }
+      }
+    }
+  }
+</page-query>
 <script>
 export default {
   data() {
@@ -138,12 +142,10 @@ export default {
       this.loading = true;
     },
     search() {
-      for (let i = 0; i < this.blogs.length; i++) {
-        this.blogs[i].hide = this.blogs[i].title.indexOf(this.searchKey) < 0;
-      }
+      for (let i = 0; i < this.$page.blogs.edges.length; i++) {}
     },
     editBlog(index) {
-      this.$router.push("/blog/edit/" + this.blogs[index].id);
+      this.$router.push("/blog/edit/" + this.$page.blogs.edges[index].node.id);
     },
     deleteBlog(index) {
       this.$confirm("是否永久删除该博客?", "提示", {
@@ -151,7 +153,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        let blog = this.blogs[index];
+        let blog = this.$page.blogs.edges[index];
       });
     },
     goAdd() {
