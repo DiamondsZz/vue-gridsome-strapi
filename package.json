@@ -1,23 +1,14 @@
 {
-  "name": "vue-gridsome-strapi",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "dependencies": {
-    "sharp": "^0.27.0"
-  },
-  "devDependencies": {},
+  "name": "vue-gridsome",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gridsome build",
+    "develop": "gridsome develop",
+    "explore": "gridsome explore"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DiamondsZz/vue-gridsome-strapi.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/DiamondsZz/vue-gridsome-strapi/issues"
-  },
-  "homepage": "https://github.com/DiamondsZz/vue-gridsome-strapi#readme"
+  "dependencies": {
+    "gridsome": "^0.7.0",
+    "element-ui": "^2.3.5",
+    "mavon-editor": "^2.5.2"
+  }
 }
