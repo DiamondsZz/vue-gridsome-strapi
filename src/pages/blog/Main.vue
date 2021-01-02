@@ -110,11 +110,13 @@
 
 <page-query>
   query{
-    blogs:allPost{
+    blogs:allStrapiPost{
       edges{
         node{
           id
           title
+          description
+          updateTime(format: "YYYY-MM-DD")
         }
       }
     }
@@ -131,19 +133,13 @@ export default {
       },
       loading: false,
       searchKey: "",
-      blogs: [],
     };
   },
   computed: {},
   mounted() {},
   methods: {
-    list() {
-      this.blogs = [];
-      this.loading = true;
-    },
-    search() {
-      for (let i = 0; i < this.$page.blogs.edges.length; i++) {}
-    },
+    list() {},
+    search() {},
     editBlog(index) {
       this.$router.push("/blog/edit/" + this.$page.blogs.edges[index].node.id);
     },
@@ -160,7 +156,7 @@ export default {
       this.$router.push("/blog/add");
     },
     goDetails(id) {
-      this.$router.push("/blog/details/" + id);
+      this.$router.push("/blog/" + id);
     },
   },
 };

@@ -17,47 +17,27 @@
         ></el-button>
       </el-card>
 
-      <div v-if="projects && projects.length > 0">
+      <div v-if="$page.projects.edges && $page.projects.edges.length > 0">
         <el-card
           shadow="hover"
-          v-for="(item, index) in projects"
+          v-for="(item, index) in $page.projects.edges"
           :key="'pro' + index"
           style="margin-bottom: 20px"
-          v-if="!item.hide"
         >
           <div slot="header">
             <el-row>
               <el-col :span="16">
                 <span>
-                  <a
-                    style="text-decoration: none; cursor: pointer"
-                    @click="goDetails(item.name)"
-                  >
-                    <i class="el-icon-service"></i>&nbsp;&nbsp; {{ item.name }}
+                  <a style="text-decoration: none; cursor: pointer">
+                    <i class="el-icon-service"></i>&nbsp;&nbsp; {{ item.node.name }}
                   </a>
                 </span>
               </el-col>
-              <el-col :span="8">
-                <div style="text-align: right">
-                  <el-button
-                    @click="goGithub(item.url)"
-                    style="padding: 3px 0"
-                    type="text"
-                    icon="el-icon-back"
-                    >前往GitHub</el-button
-                  >
-                  <el-button
-                    @click="$share('/user/project/details/' + item.name)"
-                    style="padding: 3px 0"
-                    type="text"
-                    icon="el-icon-share"
-                  ></el-button>
-                </div>
-              </el-col>
+              <el-col :span="8"> </el-col>
             </el-row>
           </div>
           <div style="font-size: 0.9rem; line-height: 1.5; color: #606c71">
-            最近更新 {{ item.updateTime }}
+            最近更新 {{ item.node.updateTime }}
           </div>
           <div
             style="
@@ -67,48 +47,7 @@
               padding: 10px 0px 0px 0px;
             "
           >
-            {{ item.description }}
-          </div>
-          <div
-            style="font-size: 1.1rem; color: #303133; padding: 10px 0px 0px 0px"
-          >
-            <el-row>
-              <el-col :span="16" style="padding-top: 5px">
-                <el-tooltip
-                  effect="dark"
-                  :content="'star ' + item.stargazersCount"
-                  placement="bottom"
-                >
-                  <i
-                    class="el-icon-star-off"
-                    style="margin: 0px 5px 0px 0px"
-                  ></i>
-                </el-tooltip>
-                {{ item.stargazersCount }}
-                <el-tooltip
-                  effect="dark"
-                  :content="'watch ' + item.watchersCount"
-                  placement="bottom"
-                >
-                  <i class="el-icon-view" style="margin: 0px 5px 0px 15px"></i>
-                </el-tooltip>
-                {{ item.watchersCount }}
-                <el-tooltip
-                  effect="dark"
-                  :content="'fork ' + item.forksCount"
-                  placement="bottom"
-                >
-                  <i class="el-icon-bell" style="margin: 0px 5px 0px 15px"></i>
-                </el-tooltip>
-                {{ item.forksCount }}
-              </el-col>
-              <el-col :span="8" style="text-align: right">
-                <el-tag size="small" type="danger" v-if="item.license">{{
-                  item.license
-                }}</el-tag>
-                <el-tag size="small" type="success">{{ item.language }}</el-tag>
-              </el-col>
-            </el-row>
+            {{ item.node.description }}
           </div>
         </el-card>
         <div style="text-align: center">
@@ -131,7 +70,7 @@
           padding: 20px 0px 20px 0px;
           text-align: center;
         "
-        v-if="!projects || projects.length == 0"
+        v-if="!$page.projects.edges || $page.projects.edges.length == 0"
       >
         <font style="font-size: 30px; color: #dddddd">
           <b>还没有开源项目 (╯°Д°)╯︵ ┻━┻</b>
@@ -140,6 +79,19 @@
     </div>
   </Layout>
 </template>
+<page-query>
+  query{
+    projects:allStrapiItem{
+      edges{
+        node{
+          name
+          description
+          updateTime(format: "YYYY-MM-DD")
+        }
+      }
+    }
+  }
+</page-query>
 <script>
 export default {
   data() {

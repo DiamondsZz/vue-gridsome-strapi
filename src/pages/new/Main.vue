@@ -1,13 +1,13 @@
 <template>
   <Layout>
     <div style="min-height: 600px" v-loading="loading">
-      <el-card shadow="never" style="min-height: 400px" v-if="blog.id">
+      <el-card shadow="never" style="min-height: 400px" v-if="$page.blog.id">
         <div slot="header">
-          <span>{{ blog.title }}</span>
+          <span>{{ $page.blog.title }}</span>
         </div>
         <div style="font-size: 0.9rem; line-height: 1.5; color: #606c71">
-          发布 {{ blog.createTime }} <br />
-          更新 {{ blog.updateTime }}
+          发布 {{ $page.blog.createTime }} <br />
+          更新 {{ $page.blog.updateTime }}
         </div>
         <div
           style="
@@ -18,10 +18,12 @@
             padding: 5px 0px 5px 0px;
           "
         >
-          <pre style="font-family: '微软雅黑'">{{ blog.description }}</pre>
+          <pre style="font-family: '微软雅黑'">{{
+            $page.blog.description
+          }}</pre>
         </div>
         <div
-          v-html="blog.content"
+          v-html="$page.blog.content"
           class="markdown-body"
           style="padding-top: 20px"
         ></div>
@@ -33,7 +35,7 @@
           padding: 20px 0px 20px 0px;
           text-align: center;
         "
-        v-if="!blog.id"
+        v-if="!$page.blog.id"
       >
         <font style="font-size: 30px; color: #dddddd">
           <b>没有更新 ╮(๑•́ ₃•̀๑)╭</b>
@@ -42,6 +44,18 @@
     </div>
   </Layout>
 </template>
+<page-query>
+ query {
+  blog: strapiPost(id:3) {
+    id
+    title
+    description
+    createTime(format: "YYYY-MM-DD")
+    updateTime(format: "YYYY-MM-DD")
+    content
+  }
+}
+</page-query>
 <script>
 export default {
   data() {

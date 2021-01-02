@@ -37,6 +37,18 @@
     </el-card>
   </div>
 </template>
+<page-query>
+ query($id:ID) {
+  blog: strapiPost(id:$id ) {
+    id
+    title
+    description
+    createTime
+    updateTime
+    content
+  }
+}
+</page-query>
 <script>
 export default {
   components: {},
@@ -97,7 +109,8 @@ export default {
   },
   computed: {},
   mounted() {
-    this.form.id = this.$route.params.id;
+    console.log(this);
+    this.form = this.$page.blog;
   },
   methods: {
     imgAdd(pos, file) {},

@@ -12,8 +12,21 @@ module.exports = {
       options: {
         apiURL: "http://localhost:1337",
         queryLimit: 1000, // Defaults to 100
-        contentTypes: ["post"],
+        contentTypes: ["post",'item','other'],
       },
     },
   ],
+  templates: {
+    StrapiPost: [
+      {
+        path: "/blog/:id",
+        component: "./src/templates/postDetails.vue",
+      },
+      {
+        name: "edit",
+        path: "/blog/edit/:id",
+        component: "./src/templates/postEdit.vue",
+      },
+    ],
+  },
 };

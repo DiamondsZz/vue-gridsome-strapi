@@ -4,23 +4,15 @@
       <div slot="header">
         <el-row>
           <el-col :span="12">
-            <span>{{ blog.title }}</span>
+            <span>{{ $page.blog.title }}</span>
           </el-col>
           <el-col :span="12">
             <div style="text-align: right">
-              <el-button
-                @click="$share()"
-                style="padding: 3px 0"
-                type="text"
-                icon="el-icon-share"
-                >分享</el-button
-              >
               <el-button
                 @click="edit"
                 style="padding: 3px 0"
                 type="text"
                 icon="el-icon-edit"
-                v-if="token"
                 >编辑</el-button
               >
               <el-button
@@ -35,8 +27,8 @@
         </el-row>
       </div>
       <div style="font-size: 0.9rem; line-height: 1.5; color: #606c71">
-        发布 {{ blog.createTime }} <br />
-        更新 {{ blog.updateTime }}
+        发布 {{ $page.blog.createTime }} <br />
+        更新 {{ $page.blog.updateTime }}
       </div>
       <div
         style="
@@ -47,17 +39,31 @@
           padding: 5px 0px 5px 0px;
         "
       >
-        <pre style="font-family: '微软雅黑'">{{ blog.description }}</pre>
+        <pre style="font-family: '微软雅黑'">{{ $page.blog.description }}</pre>
       </div>
       <div
-        v-html="blog.content"
+        v-html="mdToHtml($page.blog.content)"
         class="markdown-body"
         style="padding-top: 20px"
       ></div>
     </el-card>
   </div>
 </template>
+<page-query>
+ query($id:ID) {
+  blog: strapiPost(id:$id ) {
+    id
+    title
+    description
+    createTime(format: "YYYY-MM-DD")
+    updateTime(format: "YYYY-MM-DD")
+    content
+  }
+}
+</page-query>
 <script>
+import MarkdownIt from "markdown-it";
+const MD = new MarkdownIt();
 export default {
   data() {
     return {
@@ -75,6 +81,9 @@ export default {
     this.blog.id = this.$route.params.id;
   },
   methods: {
+    mdToHtml(markdown) {
+      return MD.render(markdown);
+    },
     edit() {
       this.$router.push("/blog/edit/" + this.blog.id);
     },
